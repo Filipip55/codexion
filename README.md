@@ -1,3 +1,4 @@
+This project has been created as part of the 42 curriculum by icoman
 # codexion
 progeto codexion del common core 42
 
@@ -6,3 +7,5 @@ progeto codexion del common core 42
 - pari iniziano con sx e dispari con dx
 
 l'accesso a memoria comune deve essere protetto (MUTEX) e gestito con condition time wait
+
+
