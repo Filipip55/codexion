@@ -1,0 +1,58 @@
+#include "codexion.h"
+
+static int	create_coder_threads(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->num_coders)
+	{
+		if (pthread_create(&data->coders[i].thread, NULL,
+				coder_routine, &data->coders[i]) != 0)
+		{
+			fprintf(stderr, "Error: Failed to create coder thread\n");
+			set_sim_stop(data);
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
+static void	wait_threads(t_data *data, pthread_t monitor)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->num_coders)
+	{
+		if (data->coders[i].thread)
+			pthread_join(data->coders[i].thread, NULL);
+		i++;
+	}
+	pthread_join(monitor, NULL);
+}
+
+int	main(int argc, char **argv)
+{
+	t_data		data;
+	pthread_t	monitor_thread;
+
+	memset(&data, 0, sizeof(t_data));
+	if (parse_args(argc, argv, &data))
+		return (1);
+	if (init_data(&data))
+		return (1);
+	data.start_time = get_time_ms();
+	set_initial_times(&data);
+	if (pthread_create(&monitor_thread, NULL, monitor_routine, &data) != 0)
+	{
+		fprintf(stderr, "Error: Failed to create monitor thread\n");
+		cleanup(&data);
+		return (1);
+	}
+	create_coder_threads(&data);
+	wait_threads(&data, monitor_thread);
+	cleanup(&data);
+	return (0);
+}

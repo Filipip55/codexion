@@ -1,6 +1,6 @@
 This project has been created as part of the 42 curriculum by icoman
 # codexion
-progeto codexion del common core 42
+project codexion of the 42 common core
 
 2 tecniche per deadlock: 
 - tutti iniziano con sx e ultimo inizia con falsa sx (puntatore della mano sx a dongle dx)
