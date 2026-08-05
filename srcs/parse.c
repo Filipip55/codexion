@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: icoman <icoman@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/08/05 09:49:38 by icoman            #+#    #+#             */
+/*   Updated: 2026/08/05 09:49:41 by icoman           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "codexion.h"
 
 static int	is_numeric(const char *str)
@@ -30,7 +42,7 @@ static int	validate_args(t_data *data, char **argv)
 		|| data->time_to_refactor < 0 || data->compiles_required < 0
 		|| data->dongle_cooldown < 0)
 	{
-		fprintf(stderr, "Error: Invalid numeric arguments\n");
+		fprintf(stderr, "Error: Invalid or missing numeric arguments\n");
 		return (1);
 	}
 	if (strcmp(argv[8], "fifo") == 0)
@@ -39,7 +51,7 @@ static int	validate_args(t_data *data, char **argv)
 		data->scheduler = 1;
 	else
 	{
-		fprintf(stderr, "Error: Invalid scheduler\n");
+		fprintf(stderr, "Error: Invalid scheduler, chhose fifo or edf\n");
 		return (1);
 	}
 	return (0);
@@ -49,7 +61,10 @@ int	parse_args(int argc, char **argv, t_data *data)
 {
 	if (argc != 9)
 	{
-		fprintf(stderr, "Usage: ./codexion [args]\n");
+		fprintf(stderr, "Usage: ./codexion [number_of_coders] ");
+		fprintf(stderr, "[time_to_burnout] [time_to_compile] [time_to_debug] ");
+		fprintf(stderr, "[time_to_refactor] [number_of_compiles_required] ");
+		fprintf(stderr, "[dongle_cooldown] [scheduler]\n");
 		return (1);
 	}
 	data->num_coders = parse_numeric_arg(argv[1]);
