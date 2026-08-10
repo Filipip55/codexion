@@ -27,9 +27,9 @@ int	compare_nodes(t_heap_node a, t_heap_node b)
 		return (-1);
 	if (a.priority > b.priority)
 		return (1);
-	if (a.coder_id < b.coder_id)
-		return (-1);
 	if (a.coder_id > b.coder_id)
+		return (-1);
+	if (a.coder_id < b.coder_id)
 		return (1);
 	return (0);
 }
