@@ -6,13 +6,13 @@
 /*   By: icoman <icoman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/05 09:49:59 by icoman            #+#    #+#             */
-/*   Updated: 2026/08/05 09:50:00 by icoman           ###   ########.fr       */
+/*   Updated: 2026/08/13 15:03:58 by icoman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-void	log_action(t_data *data, int coder_id, char *action)
+void	print_log_msg(t_data *data, int coder_id, char *action)
 {
 	long	timestamp;
 

@@ -6,7 +6,7 @@
 /*   By: icoman <icoman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/05 09:50:13 by icoman            #+#    #+#             */
-/*   Updated: 2026/08/06 11:58:48 by icoman           ###   ########.fr       */
+/*   Updated: 2026/08/13 15:03:58 by icoman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	acquire_dongle(t_data *data, t_coder *coder, int dongle_idx)
 	heap_pop(&dongle->wait_queue);
 	dongle->available = 0;
 	pthread_mutex_unlock(&dongle->mutex);
-	log_action(data, coder->id, "has taken a dongle");
+	print_log_msg(data, coder->id, "has taken a dongle");
 	return (0);
 }
 

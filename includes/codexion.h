@@ -6,7 +6,7 @@
 /*   By: icoman <icoman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/05 09:46:46 by icoman            #+#    #+#             */
-/*   Updated: 2026/08/05 09:47:03 by icoman           ###   ########.fr       */
+/*   Updated: 2026/08/13 15:03:58 by icoman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ long		elapsed_ms(t_data *data);
 int			check_sim_stop(t_data *data);
 void		set_sim_stop(t_data *data);
 
-void		log_action(t_data *data, int coder_id, char *action);
+void		print_log_msg(t_data *data, int coder_id, char *action);
 void		log_burnout(t_data *data, int coder_id);
 
 void		heap_init(t_heap *heap, int capacity);

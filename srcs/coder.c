@@ -6,7 +6,7 @@
 /*   By: icoman <icoman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/05 09:50:16 by icoman            #+#    #+#             */
-/*   Updated: 2026/08/05 09:50:17 by icoman           ###   ########.fr       */
+/*   Updated: 2026/08/13 15:03:58 by icoman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@ static void	coder_work_cycle(t_coder *coder, t_data *data)
 {
 	coder->last_compile = elapsed_ms(data);
 	coder->deadline = coder->last_compile + data->time_to_burnout;
-	log_action(data, coder->id, "is compiling");
+	print_log_msg(data, coder->id, "is compiling");
 	smart_sleep(data->time_to_compile, data);
 	coder->compile_count++;
 	release_dongle(data, coder->left_dongle);
 	release_dongle(data, coder->right_dongle);
-	log_action(data, coder->id, "is debugging");
+	print_log_msg(data, coder->id, "is debugging");
 	smart_sleep(data->time_to_debug, data);
-	log_action(data, coder->id, "is refactoring");
+	print_log_msg(data, coder->id, "is refactoring");
 	smart_sleep(data->time_to_refactor, data);
 }
 
