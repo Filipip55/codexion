@@ -6,7 +6,7 @@
 /*   By: icoman <icoman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/05 09:49:38 by icoman            #+#    #+#             */
-/*   Updated: 2026/08/05 09:49:41 by icoman           ###   ########.fr       */
+/*   Updated: 2026/08/17 16:03:36 by icoman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	validate_args(t_data *data, char **argv)
 		data->scheduler = 1;
 	else
 	{
-		fprintf(stderr, "Error: Invalid scheduler, chhose fifo or edf\n");
+		fprintf(stderr, "Error: Invalid scheduler, choose fifo or edf\n");
 		return (1);
 	}
 	return (0);
