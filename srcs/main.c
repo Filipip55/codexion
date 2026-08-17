@@ -6,7 +6,7 @@
 /*   By: icoman <icoman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/05 09:49:55 by icoman            #+#    #+#             */
-/*   Updated: 2026/08/05 09:49:56 by icoman           ###   ########.fr       */
+/*   Updated: 2026/08/17 11:48:24 by icoman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,13 @@ static void	wait_threads(t_data *data, pthread_t monitor)
 	pthread_join(monitor, NULL);
 }
 
+/* Punto d'entrata di codexion, in ordine:
+	- parsing degli argomenti
+	- init della struct contenente i dati comuni
+	- salva il tempo di inizio e si settano le deadline dei coder
+	- crea il thread monitor e i coder
+	- mette in pausa il main e aspetta l'esecuzione del monitor
+	- esegue pulizie finali della memoria */
 int	main(int argc, char **argv)
 {
 	t_data		data;

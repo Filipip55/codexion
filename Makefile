@@ -6,7 +6,7 @@ SRCDIR  = srcs
 OBJDIR  = objs
 
 SRCS    = main.c parse.c init.c time_utils.c log.c dongle.c \
-          heap.c heap_utils.c coder.c monitor.c cleanup.c
+          queue.c queue_utils.c coder.c monitor.c cleanup.c
 
 OBJS    = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
 

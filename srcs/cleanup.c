@@ -23,7 +23,7 @@ void	cleanup(t_data *data)
 		{
 			pthread_mutex_destroy(&data->dongles[i].mutex);
 			pthread_cond_destroy(&data->dongles[i].cond);
-			heap_destroy(&data->dongles[i].wait_queue);
+			queue_destroy(&data->dongles[i].wait_queue);
 			i++;
 		}
 		free(data->dongles);

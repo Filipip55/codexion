@@ -3,7 +3,7 @@
 ## Description
 **Codexion** is a concurrent programming project inspired by the classic Dining Philosophers problem, adapted into a modern software development scenario. Instead of philosophers eating with forks, this simulation models coders attempting to work using shared resources (dongles). The primary goal of the project is to deepen the understanding of multi-threading, concurrency, mutexes, condition variables, and advanced scheduling algorithms in C.
 
-Coders must acquire two adjacent dongles to perform their work cycle: compiling, debugging, and refactoring. A global monitor ensures that no coder burns out (starves) by enforcing strict timing deadlines. The simulation features two distinct schedulers (FIFO and EDF) utilizing priority queues (Min-Heap) to dictate dongle acquisition fairly and efficiently.
+Coders must acquire two adjacent dongles to perform their work cycle: compiling, debugging, and refactoring. A global monitor ensures that no coder burns out (starves) by enforcing strict timing deadlines. The simulation features two distinct schedulers (FIFO and EDF) utilizing priority queues to dictate dongle acquisition fairly and efficiently.
 
 ## Instructions
 
@@ -38,7 +38,7 @@ Run the simulation with the following arguments:
 Critical concurrency and synchronization issues addressed in this project's implementation:
 
 - **Deadlock Prevention (Coffman's Conditions)**: Circular wait is prevented by enforcing a strict resource acquisition order. Coders with an even ID acquire their left dongle first, then the right. Coders with an odd ID acquire their right dongle first, then the left. This breaks the symmetry required for a deadlock.
-- **Starvation Prevention**: Starvation is mitigated through our scheduling policies (FIFO/EDF). Dongles maintain a Min-Heap priority queue (`t_heap_node`), ensuring that access is granted systematically based on wait time or urgency, rather than leaving it to the unpredictable nature of OS thread scheduling.
+- **Starvation Prevention**: Starvation is mitigated through our scheduling policies (FIFO/EDF). Dongles maintain an array-based priority queue (`t_queue_node`), ensuring that access is granted systematically based on wait time or urgency, rather than leaving it to the unpredictable nature of OS thread scheduling.
 - **Cooldown Handling**: Implemented via a strict timestamp check (`dongle_cooldown`). Condition variables in `acquire_dongle` wake up threads, but they only proceed if the dongle's release time plus the cooldown period has fully elapsed.
 - **Precise Burnout Detection**: A dedicated monitor thread polls the state of all coders at a high frequency. If `elapsed_ms(data) - last_compile >= time_to_burnout`, it immediately broadcasts a stop signal, logs the burnout, and halts the simulation cleanly.
 - **Log Serialization**: All console output (`printf`) is strictly protected by a `log_mutex`. This ensures that messages from different threads do not interleave, preventing garbled output, and guarantees that the burnout message is definitively the final output before termination.
@@ -53,6 +53,6 @@ This implementation relies heavily on POSIX thread primitives to coordinate acce
 - **`pthread_cond_t`**: Used for signaling state changes efficiently without busy-waiting. When a coder finishes with a dongle, `pthread_cond_broadcast` wakes up all waiting threads. 
 - **Custom Event Queue / Wait Loop**: The waiting threads use `pthread_cond_timedwait` (inside `wait_dongle_loop`) to suspend execution. They wake up and attempt to claim the dongle only when:
   1. The dongle is available.
-  2. The coder is at the root of the Min-Heap priority queue (`heap_peek`).
+  2. The coder is at the head of the priority queue (`queue_peek`).
   3. The cooldown has expired.
 If the conditions are not met, they recalculate their wait time and go back to sleep, achieving robust thread-safe communication between the monitor, the coders, and the shared dongles.

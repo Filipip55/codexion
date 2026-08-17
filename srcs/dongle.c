@@ -37,7 +37,7 @@ static long	get_wait_until(t_data *data, t_dongle *dongle, t_coder *coder)
 
 	wait_until = data->start_time + coder->deadline;
 	if (dongle->available
-		&& heap_peek(&dongle->wait_queue).coder_id == coder->id)
+		&& queue_peek(&dongle->wait_queue).coder_id == coder->id)
 	{
 		cooldown_until = dongle->release_time + data->dongle_cooldown;
 		if (cooldown_until < wait_until)
@@ -54,7 +54,7 @@ static int	wait_dongle_loop(t_data *data, t_dongle *dongle, t_coder *coder)
 	while (!check_sim_stop(data))
 	{
 		if (dongle->available
-			&& heap_peek(&dongle->wait_queue).coder_id == coder->id)
+			&& queue_peek(&dongle->wait_queue).coder_id == coder->id)
 		{
 			if (get_time_ms() >= dongle->release_time + data->dongle_cooldown)
 				break ;
@@ -64,7 +64,7 @@ static int	wait_dongle_loop(t_data *data, t_dongle *dongle, t_coder *coder)
 		if (ret == ETIMEDOUT)
 		{
 			if (dongle->available
-				&& heap_peek(&dongle->wait_queue).coder_id == coder->id
+				&& queue_peek(&dongle->wait_queue).coder_id == coder->id
 				&& get_time_ms() >= dongle->release_time
 				+ data->dongle_cooldown)
 				continue ;
@@ -85,18 +85,18 @@ int	acquire_dongle(t_data *data, t_coder *coder, int dongle_idx)
 		priority = get_time_ms();
 	else
 		priority = coder->deadline;
-	heap_push(&dongle->wait_queue, coder->id, priority);
+	queue_push(&dongle->wait_queue, coder->id, priority);
 	wait_dongle_loop(data, dongle, coder);
 	if (check_sim_stop(data)
 		|| get_time_ms() >= data->start_time + coder->deadline)
 	{
-		if (heap_peek(&dongle->wait_queue).coder_id == coder->id)
-			heap_pop(&dongle->wait_queue);
+		if (queue_peek(&dongle->wait_queue).coder_id == coder->id)
+			queue_pop(&dongle->wait_queue);
 		pthread_cond_broadcast(&dongle->cond);
 		pthread_mutex_unlock(&dongle->mutex);
 		return (1);
 	}
-	heap_pop(&dongle->wait_queue);
+	queue_pop(&dongle->wait_queue);
 	dongle->available = 0;
 	pthread_mutex_unlock(&dongle->mutex);
 	print_log_msg(data, coder->id, "has taken a dongle");

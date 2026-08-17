@@ -6,7 +6,7 @@
 /*   By: icoman <icoman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/05 09:49:52 by icoman            #+#    #+#             */
-/*   Updated: 2026/08/05 09:49:53 by icoman           ###   ########.fr       */
+/*   Updated: 2026/08/17 11:43:13 by icoman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,9 @@ static int	check_all_fed(t_data *data)
 	return (0);
 }
 
+/* Ogni 1ms controlla se un coder è andato in burnout e se ogni coder
+	ha terminato il ciclo di compilazioni. In entrambi i casi invia un broadcast
+	a tutti i thread e interrompe la compilazione*/
 void	*monitor_routine(void *arg)
 {
 	t_data	*data;

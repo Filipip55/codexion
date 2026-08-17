@@ -25,7 +25,7 @@ static int	init_dongles(t_data *data)
 			return (1);
 		data->dongles[i].available = 1;
 		data->dongles[i].release_time = 0;
-		heap_init(&data->dongles[i].wait_queue, data->num_coders);
+		queue_init(&data->dongles[i].wait_queue, data->num_coders);
 		i++;
 	}
 	return (0);
