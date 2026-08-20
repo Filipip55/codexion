@@ -6,7 +6,7 @@
 /*   By: icoman <icoman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/05 09:46:46 by icoman            #+#    #+#             */
-/*   Updated: 2026/08/17 15:10:47 by icoman           ###   ########.fr       */
+/*   Updated: 2026/08/20 20:18:58 by icoman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,9 @@ typedef struct s_coder
 	int				right_dongle;
 }	t_coder;
 
-/* Contiene tutti i dati sulla simulazione */
+/* Contiene tutti i dati sulla simulazione,
+	i mutex per l'accesso alle flag di print log msg
+	e di fine simulazione */
 typedef struct s_data
 {
 	int				num_coders;

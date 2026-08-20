@@ -6,12 +6,15 @@
 /*   By: icoman <icoman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/05 09:50:13 by icoman            #+#    #+#             */
-/*   Updated: 2026/08/13 15:03:58 by icoman           ###   ########.fr       */
+/*   Updated: 2026/08/20 22:11:04 by icoman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
+/* Calcola quanti millisecondi mancano al cooldown/burnout
+	e livella l'offset tra nanosecondi (ts) e microsecodni (tv)
+	*/
 static void	set_timeout_absolute(struct timespec *ts, long timeout_ms)
 {
 	struct timeval	now;
@@ -30,6 +33,14 @@ static void	set_timeout_absolute(struct timespec *ts, long timeout_ms)
 	}
 }
 
+/* Imposta come timeout di default l'istante assoluto in cui
+	il coder andrà in burnout
+	
+	Se il dongle è già disponibile e il coder è in cima alla coda, 
+	ma è bloccato dal cooldown:
+	- calcola l'istante di fine cooldown
+	- Se il cooldown finisce prima del burnout, restituisce cooldown_until
+	*/
 static long	get_wait_until(t_data *data, t_dongle *dongle, t_coder *coder)
 {
 	long	wait_until;
@@ -46,6 +57,20 @@ static long	get_wait_until(t_data *data, t_dongle *dongle, t_coder *coder)
 	return (wait_until);
 }
 
+/* Verifica se il dongle è libero e se il coder chiamante è il primo della coda
+	Se è così, controlla se il tempo di cooldown del dongle è già trascorso
+	Se è così, esce dal loop per acquisire il loop
+	
+	In seguito calcola il tempo di attesa più piccolo con get_wait_until()
+	e lo converte in timespec via set_timeout_absolute()
+
+	Rilascia dongle->mutex e sospende il thread fino a una broadcast o
+	al raggiungimento del ts. Al risveglio, il thread riacquisisce il mutex.
+	
+	Se il risveglio è avvenuto per scadenza di ts e il timeout era quello del
+	cooldown e ora il dongle è utilizzabile ripete il ciclo while,
+	che uscirà al primo controllo
+	*/
 static int	wait_dongle_loop(t_data *data, t_dongle *dongle, t_coder *coder)
 {
 	struct timespec	ts;
