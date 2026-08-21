@@ -50,6 +50,7 @@ This implementation relies heavily on POSIX thread primitives to coordinate acce
   - Each dongle has its own mutex to protect its state variables (`available`, `release_time`, and `wait_queue`).
   - A `log_mutex` prevents terminal output race conditions.
   - A `stop_mutex` protects the global `sim_stop` flag to ensure thread-safe reads and writes across the monitor and coders.
+  - A `state_mutex` for each coder protects its local state variables (`last_compile`, `compile_count`) from concurrent reads by the monitor and writes by the coder thread, preventing data races.
 - **`pthread_cond_t`**: Used for signaling state changes efficiently without busy-waiting. When a coder finishes with a dongle, `pthread_cond_broadcast` wakes up all waiting threads. 
 - **Custom Event Queue / Wait Loop**: The waiting threads use `pthread_cond_timedwait` (inside `wait_dongle_loop`) to suspend execution. They wake up and attempt to claim the dongle only when:
   1. The dongle is available.

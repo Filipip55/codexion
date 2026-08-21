@@ -32,7 +32,9 @@ static int	check_burnout(t_data *data, int i)
 	long	time_since_last_compile;
 
 	current_time = elapsed_ms(data);
+	pthread_mutex_lock(&data->coders[i].state_mutex);
 	time_since_last_compile = current_time - data->coders[i].last_compile;
+	pthread_mutex_unlock(&data->coders[i].state_mutex);
 	if (time_since_last_compile >= data->time_to_burnout)
 	{
 		log_burnout(data, data->coders[i].id);
@@ -51,8 +53,10 @@ static int	check_all_fed(t_data *data)
 	i = 0;
 	while (i < data->num_coders)
 	{
+		pthread_mutex_lock(&data->coders[i].state_mutex);
 		if (data->coders[i].compile_count < data->compiles_required)
 			all_fed = 0;
+		pthread_mutex_unlock(&data->coders[i].state_mutex);
 		i++;
 	}
 	if (all_fed)

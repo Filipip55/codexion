@@ -14,11 +14,15 @@
 
 static void	coder_work_cycle(t_coder *coder, t_data *data)
 {
+	pthread_mutex_lock(&coder->state_mutex);
 	coder->last_compile = elapsed_ms(data);
 	coder->deadline = coder->last_compile + data->time_to_burnout;
+	pthread_mutex_unlock(&coder->state_mutex);
 	print_log_msg(data, coder->id, "is compiling");
 	smart_sleep(data->time_to_compile, data);
+	pthread_mutex_lock(&coder->state_mutex);
 	coder->compile_count++;
+	pthread_mutex_unlock(&coder->state_mutex);
 	release_dongle(data, coder->left_dongle);
 	release_dongle(data, coder->right_dongle);
 	print_log_msg(data, coder->id, "is debugging");

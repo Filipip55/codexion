@@ -56,6 +56,7 @@ typedef struct s_coder
 	int				compile_count;
 	long			last_compile;
 	long			deadline;
+	pthread_mutex_t	state_mutex;
 	pthread_t		thread;
 	struct s_data	*data;
 	int				left_dongle;

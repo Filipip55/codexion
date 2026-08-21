@@ -59,6 +59,7 @@ static void	init_coders(t_data *data)
 		data->coders[i].last_compile = 0;
 		data->coders[i].data = data;
 		data->coders[i].thread = 0;
+		pthread_mutex_init(&data->coders[i].state_mutex, NULL);
 		assign_dongles(data, i);
 		i++;
 	}

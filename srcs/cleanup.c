@@ -29,7 +29,15 @@ void	cleanup(t_data *data)
 		free(data->dongles);
 	}
 	if (data->coders)
+	{
+		i = 0;
+		while (i < data->num_coders)
+		{
+			pthread_mutex_destroy(&data->coders[i].state_mutex);
+			i++;
+		}
 		free(data->coders);
+	}
 	pthread_mutex_destroy(&data->log_mutex);
 	pthread_mutex_destroy(&data->stop_mutex);
 }
