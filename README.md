@@ -32,7 +32,7 @@ Run the simulation with the following arguments:
 - **POSIX Threads (pthreads) Documentation**: Standard references for `pthread_create`, `pthread_mutex_init`, `pthread_cond_timedwait`, etc.
 - **Dining Philosophers Problem**: Classic concurrency problems, resource hierarchies, and deadlock solutions.
 - **Data Handling Concepts**: For EDF (Earliest Deadline First) and FIFO scheduling principles.
-- **AI Usage**: AI was used during the development of this project primarily for generating code walkthroughs and assisting in the drafting of this README documentation.
+- **AI Usage**: AI was used during the development of this project primarily for confusing myself by suggesting that I use a binary tree for the waiting list logic and in the drafting of this README documentation.
 
 ## Blocking Cases Handled
 Critical concurrency and synchronization issues addressed in this project's implementation:

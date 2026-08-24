@@ -6,7 +6,7 @@
 /*   By: icoman <icoman@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/05 09:50:18 by icoman            #+#    #+#             */
-/*   Updated: 2026/08/05 09:50:19 by icoman           ###   ########.fr       */
+/*   Updated: 2026/08/24 19:11:31 by icoman           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,7 @@ void	cleanup(t_data *data)
 	{
 		i = 0;
 		while (i < data->num_coders)
-		{
-			pthread_mutex_destroy(&data->coders[i].state_mutex);
-			i++;
-		}
+			pthread_mutex_destroy(&data->coders[i++].state_mutex);
 		free(data->coders);
 	}
 	pthread_mutex_destroy(&data->log_mutex);
